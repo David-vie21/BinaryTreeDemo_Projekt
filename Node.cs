@@ -20,12 +20,17 @@ namespace BinaryTreeDemo_Projekt
 
         public Node(T value)
         {
-            this._value = value;
-            Add(value);
+            _left = _right = null;
+            //this._value = value;
+            Add2(value);
+            Console.WriteLine("THIS NODE =>>>");
+            Console.WriteLine("Value: " + value);
+            Console.WriteLine("Right: " + _right);
+            Console.WriteLine("Left: " + _left);
 
         }
 
-        public void Add(T value)
+        public void Add2(T value)
         {
             if (value == null)
             { }
@@ -34,6 +39,28 @@ namespace BinaryTreeDemo_Projekt
                 Nodes.Add(value);
             }
         }
+
+        public void Add(T value)
+        {
+            if (value != null)
+            {
+                Nodes.Add(value);
+                if (this.value == null)
+                { this._value = value; }
+                else if (value.CompareTo(this.value) > 0)      //this.value < value
+                {
+                    this._right = new Node<T>(value);
+                }
+                else if (value.CompareTo(this.value) < 0)      //this.value < value
+                {
+                    this._left = new Node<T>(value);
+                }
+            }
+        }
+
+
+        
+
         public List<T> ToOrderedList()
         {
             return TraverseTree(Nodes);
@@ -93,6 +120,10 @@ namespace BinaryTreeDemo_Projekt
         public override int GetHashCode()
         {
             throw new NotImplementedException();
+        }
+        public override string ToString()
+        {
+            return "Value: " + value + " / Right: " + _right + " / Left: " + _left;
         }
     }
 }

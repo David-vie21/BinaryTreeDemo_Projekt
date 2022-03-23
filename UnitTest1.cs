@@ -10,10 +10,10 @@ namespace BinaryTreeDemo_Projekt
         public void CheckOrderedListCountTest()
         {
             var root = new Node<int>(4);
-            root.Add(6);
-            root.Add(1);
-            root.Add(8);
-            root.Add(4);
+            root.Add2(6);
+            root.Add2(1);
+            root.Add2(8);
+            root.Add2(4);
             List<int> result = root.ToOrderedList();
             Assert.True(result.Count == 5);
         }
