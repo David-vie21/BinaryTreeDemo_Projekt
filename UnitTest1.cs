@@ -10,10 +10,10 @@ namespace BinaryTreeDemo_Projekt
         public void CheckOrderedListCountTest()
         {
             var root = new Node<int>(4);
-            root.Add2(6);
-            root.Add2(1);
-            root.Add2(8);
-            root.Add2(4);
+            root.Add(6);
+            root.Add(1);
+            root.Add(8);
+            root.Add(4);
             List<int> result = root.ToOrderedList();
             Assert.True(result.Count == 5);
         }
@@ -62,6 +62,32 @@ namespace BinaryTreeDemo_Projekt
             root.Add("G");
             List<string> result = root.ToOrderedList();
             Assert.True(System.Text.Json.JsonSerializer.Serialize(result) == @"[""A"",""D"",""F"",""G"",""S""]");
+        }
+
+        [Fact]
+        public void Eigen_Check_Left_Right_Logic() // eigener Unit Test um Left-Right Logik zu checken
+        {
+            var root = new Node<int>(4);
+            root.Add(6);
+            root.Add(1);
+            root.Add(8);
+            root.Add(4);
+            int result1 = root._right.value;
+            int r1C = 6;
+
+            int result2 = root._left.value;
+            int r2C = 1;
+
+            int result3 = root._right._right.value;
+            int r3C = 8;
+
+            int result4 = root._right._left.value;
+            int r4C = 4;
+
+            bool result = (result1 == r1C) && (result2 == r2C) && (result3 == r3C) && (result4 == r4C);
+            Assert.True(result == true);
+
+
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BinaryTreeDemo_Projekt
+    //@ David Ankenbrand Spengergasse 3BHIF POS1 Fun-Exercise
 {
     public class Node<T> where T : IComparable
     {
@@ -14,15 +15,15 @@ namespace BinaryTreeDemo_Projekt
             get => _value;
             //set => _value = value; 
         }
-        private Node<T> _left;
-        private Node<T> _right;
-        List<T> Nodes = new List<T>();
+        //auf public gesetzt damit man die Werte in der Unit Test Klasse überprüft werdem können
+        public Node<T> _left; 
+        public Node<T> _right;
 
         public Node(T value)
         {
             _left = _right = null;
             //this._value = value;
-            Add2(value);
+            Add(value);
             Console.WriteLine("THIS NODE =>>>");
             Console.WriteLine("Value: " + value);
             Console.WriteLine("Right: " + _right);
@@ -30,40 +31,55 @@ namespace BinaryTreeDemo_Projekt
 
         }
 
-        public void Add2(T value)
-        {
-            if (value == null)
-            { }
-            else
-            {
-                Nodes.Add(value);
-            }
-        }
+
 
         public void Add(T value)
         {
-            if (value != null)
+            //Console.WriteLine("New ADD");
+            //Console.WriteLine("Before ADD  "+ this.ToString());
+            //if (value != null)
+            //{
+            //Nodes.Add(value);
+            if (this.value is null || this.value.Equals(0))
+            { this._value = value; }
+            else if (value.CompareTo(this.value) > 0 || value.Equals(this.value))      //this.value < value
             {
-                Nodes.Add(value);
-                if (this.value == null)
-                { this._value = value; }
-                else if (value.CompareTo(this.value) > 0)      //this.value < value
+                if (_right == null)
                 {
-                    this._right = new Node<T>(value);
+                    //Console.WriteLine(value + " in Right geschrieben");
+                    _right = new Node<T>(value);
+                    //this._right.Add2(value);
+                    Console.WriteLine("After in Right geschriebn:" + this._right.value);
                 }
-                else if (value.CompareTo(this.value) < 0)      //this.value < value
+                else if (_right is not null)
                 {
-                    this._left = new Node<T>(value);
+                    _right.Add(value);
                 }
             }
+            else if (value.CompareTo(this.value) < 0)      //this.value < value
+            {
+                if (_left == null)
+                {
+                    //Console.WriteLine(value + " in Left geschrieben");
+                    this._left = new Node<T>(value);
+                    Console.WriteLine("After in Left geschriebn:" + this._left.value);
+                }
+                else if (_left is not null)
+                {
+                    _left.Add(value);
+                }
+                else { throw new Exception("Somethink is wrong"); }
+            }
+            //}
+            //Console.WriteLine("After ADD  "+this.ToString());
         }
 
 
-        
+
 
         public List<T> ToOrderedList()
         {
-            return TraverseTree(Nodes);
+            return TraverseTree(getListFromValues());
         }
 
         public List<T> TraverseTree(List<T> list)
@@ -97,9 +113,27 @@ namespace BinaryTreeDemo_Projekt
 
         public bool Exists(T value)
         {
-            if (Nodes.Contains(value))
+            if (getListFromValues().Contains(value))
             { return true; }
             return false;
+        }
+
+        public List<T> getListFromValues() //get all values / not sortet
+        {
+            List<T> list = new List<T>();
+            if (this._right is not null)
+            {
+                list.AddRange(_right.getListFromValues());
+            }
+            if (this._left is not null)
+            {
+                list.AddRange(_left.getListFromValues());
+            }
+            if (value is not null)
+            {
+                list.Add(value);
+            }
+            return list;
         }
 
         public override bool Equals(object obj)
@@ -109,7 +143,6 @@ namespace BinaryTreeDemo_Projekt
             if (other == null) return false;
             else return Equals(other);
         }
-
 
 
         public int CompareTo(Node<T> other)
