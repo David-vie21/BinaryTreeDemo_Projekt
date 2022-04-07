@@ -38,7 +38,7 @@ namespace BinaryTreeDemo_Projekt
             root.Add(1);
             root.Add(8);
             root.Add(4);
-            Assert.True(root.Exists(8));
+            Assert.True(root.exists(8));
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace BinaryTreeDemo_Projekt
             root.Add(1);
             root.Add(8);
             root.Add(4);
-            Assert.False(root.Exists(7));
+            Assert.False(root.exists(7));
         }
 
         [Fact]
@@ -87,7 +87,8 @@ namespace BinaryTreeDemo_Projekt
             bool result = (result1 == r1C) && (result2 == r2C) && (result3 == r3C) && (result4 == r4C);
             Assert.True(result == true);
 
-
         }
+
+
     }
 }
